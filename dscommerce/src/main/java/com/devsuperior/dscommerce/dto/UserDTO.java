@@ -1,12 +1,12 @@
 package com.devsuperior.dscommerce.dto;
 
-import com.devsuperior.dscommerce.entities.User;
-import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
-import org.springframework.security.core.GrantedAuthority;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+
+import com.devsuperior.dscommerce.entities.User;
 
 public class UserDTO {
 
@@ -15,10 +15,15 @@ public class UserDTO {
     private String email;
     private String phone;
     private LocalDate birthDate;
-    private String password;
-
-
     private List<String> roles = new ArrayList<>();
+
+    public UserDTO(Long id, String name, String email, String phone, LocalDate birthDate) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.birthDate = birthDate;
+    }
 
     public UserDTO(User entity) {
         id = entity.getId();
@@ -26,12 +31,9 @@ public class UserDTO {
         email = entity.getEmail();
         phone = entity.getPhone();
         birthDate = entity.getBirthDate();
-        password = entity.getPassword();
-        for(GrantedAuthority role: entity.getRoles()){
+        for (GrantedAuthority role : entity.getAuthorities()) {
             roles.add(role.getAuthority());
         }
-
-
     }
 
     public Long getId() {
@@ -50,18 +52,11 @@ public class UserDTO {
         return phone;
     }
 
-    public String getPassword() {
-        return password;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
     public List<String> getRoles() {
         return roles;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-
-
-
     }
 }
